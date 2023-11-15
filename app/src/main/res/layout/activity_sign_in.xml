@@ -107,6 +107,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_30sdp"
             android:text="Hesap oluştur"
+            android:clickable="true"
+            android:focusable="true"
             android:textColor="@color/primary"
             android:textSize="@dimen/_13ssp"
             android:textStyle="bold"/>
@@ -122,6 +124,7 @@
         android:layout_marginRight="@dimen/_50sdp"
         android:layout_marginBottom="@dimen/_50sdp"
         android:text="Hakkımızda"
+        android:background="@color/white"
         android:clickable="true"
         android:focusable="true"
 
