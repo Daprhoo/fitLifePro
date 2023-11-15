@@ -15,7 +15,10 @@
         android:layout_marginRight="@dimen/_15sdp"
         android:src="@drawable/setttings_icon"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        android:clickable="true"
+
+        android:focusable="true" />
 
     <LinearLayout
         android:id="@+id/Linear1"
@@ -30,7 +33,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/_40sdp"
-            android:text="fitLifePro ya hoş"
+            android:text="fitLifePro ya hoş geldiniz"
             android:textColor="@color/primary_text"
             android:textSize="@dimen/_18ssp"
             android:textStyle="bold"/>

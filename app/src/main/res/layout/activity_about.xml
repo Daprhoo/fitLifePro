@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="16dp"
+    android:paddingTop="16dp"
+    android:paddingRight="16dp"
+    android:paddingBottom="16dp"
+    tools:context=".AboutActivity">
+
+    <TextView
+        android:id="@+id/aboutTextView"
+        android:layout_width="548dp"
+        android:layout_height="224dp"
+        android:layout_marginTop="@dimen/_40sdp"
+        android:text="Uygulama yapımcıları:\nMuhammed Buğa\nCem Bora Ak\nİletişim:example@gmail.com"
+        android:textColor="@color/primary_text"
+        android:textSize="@dimen/_18ssp"
+        android:textStyle="bold" />
+
+
+</RelativeLayout>
