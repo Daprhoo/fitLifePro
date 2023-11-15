@@ -8,7 +8,6 @@
     android:paddingRight="16dp"
     android:paddingBottom="16dp"
     tools:context=".AboutActivity">
-
     <TextView
         android:id="@+id/aboutTextView"
         android:layout_width="548dp"

@@ -1,5 +1,6 @@
 package com.cembora.fitlifepro;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.widget.CompoundButton;
 import android.widget.Switch;
@@ -33,8 +34,24 @@ public class SettingsActivity extends AppCompatActivity {
     private void setAppLanguage(String languageCode) {
         Locale locale = new Locale(languageCode);
         Locale.setDefault(locale);
-        getResources().getConfiguration().locale = locale;
-        getResources().updateConfiguration(getResources().getConfiguration(), getResources().getDisplayMetrics());
-        recreate(); // Activity'yi yeniden oluşturarak dil değişikliklerini uygula
+
+        if (!getCurrentLanguage().equals(languageCode)) {
+            getResources().getConfiguration().locale = locale;
+            getResources().updateConfiguration(getResources().getConfiguration(), getResources().getDisplayMetrics());
+            restartSignInActivity(); // SignInActivity'yi baştan başlat
+        }
     }
+
+    private void restartSignInActivity() {
+        Intent intent = new Intent(this, SignInActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        startActivity(intent);
+        finish(); // Bu aktiviteyi kapat
+    }
+
+
+    private String getCurrentLanguage() {
+        return getResources().getConfiguration().locale.getLanguage();
+    }
+
 }

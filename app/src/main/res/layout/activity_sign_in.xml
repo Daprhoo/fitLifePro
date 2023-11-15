@@ -14,6 +14,7 @@
         android:layout_marginTop="@dimen/_15sdp"
         android:layout_marginRight="@dimen/_15sdp"
         android:src="@drawable/setttings_icon"
+        android:background="@color/white"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:clickable="true"
@@ -121,6 +122,8 @@
         android:layout_marginRight="@dimen/_50sdp"
         android:layout_marginBottom="@dimen/_50sdp"
         android:text="Hakkımızda"
+        android:clickable="true"
+        android:focusable="true"
 
         android:layout_marginLeft="@dimen/_50sdp"
         android:textColor="@color/black"
