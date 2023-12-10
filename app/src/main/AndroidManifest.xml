@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.FitLifePro">
         <activity
+            android:name=".MenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".GoalSelectionActivity"
+            android:exported="false" />
+        <activity
             android:name=".SignUpActivity"
             android:exported="false" />
         <activity

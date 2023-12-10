@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "16467258467",
+    "project_id": "fitlifepro-7f626",
+    "storage_bucket": "fitlifepro-7f626.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:16467258467:android:4b4ff263789dd021995c56",
+        "android_client_info": {
+          "package_name": "com.cembora.fitlifepro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfpDWfZoRZ1DmmHA11C_daopP8xRuiFQI"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
