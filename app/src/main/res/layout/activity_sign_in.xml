@@ -25,6 +25,8 @@
         android:id="@+id/Linear1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginRight="@dimen/_15sdp"
+        android:layout_marginLeft="@dimen/_15sdp"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         tools:ignore="MissingConstraints">
