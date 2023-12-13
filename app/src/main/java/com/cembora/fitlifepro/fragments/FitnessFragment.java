@@ -79,23 +79,17 @@ public class FitnessFragment extends Fragment {
             String userId = currentUser.getUid();
 
             // Belirli bir kullanıcının düzeyine ulaş
-            mDatabase.child("1wpHR3bCm6onNvv5NIfuAzq0wlfyhE_4QY13KWq0NA-A").child("Sayfa1")
+            mDatabase.child("users").child(userId)
                     .addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                             if (dataSnapshot.exists()) {
-                                for (DataSnapshot planSnapshot : dataSnapshot.getChildren()) {
-                                    String planKey = planSnapshot.getKey();
-                                    for (DataSnapshot daySnapshot : planSnapshot.getChildren()) {
-                                        String day = daySnapshot.child("day").getValue(String.class);
-                                        String exercises = daySnapshot.child("exercises").getValue(String.class);
+                                String selectedGoal = dataSnapshot.child("selectedGoal").getValue(String.class);
+                                String day = dataSnapshot.child("day").getValue(String.class);
+                                String exercises = dataSnapshot.child("exercises").getValue(String.class);
 
-                                        // Kontrol et: exercises null veya boş mu?
-                                        if (exercises != null && !exercises.isEmpty()) {
-                                            List<String> exerciseList = Arrays.asList(exercises.split(", "));
-                                            displayDayProgram(day, exerciseList);
-                                        }
-                                    }
+                                if (selectedGoal != null && day != null && exercises != null) {
+                                    displayDayProgram(day, Arrays.asList(exercises.split(", ")));
                                 }
                             }
                         }
@@ -107,6 +101,7 @@ public class FitnessFragment extends Fragment {
                     });
         }
     }
+
 
 
 
