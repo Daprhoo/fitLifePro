@@ -1,4 +1,4 @@
-package com.cembora.fitlifepro;
+package com.cembora.fitlifepro.fragments;
 
 // MenuActivity.java
 
@@ -12,6 +12,12 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import com.cembora.fitlifepro.R;
+import com.cembora.fitlifepro.fragments.FitnessFragment;
+import com.cembora.fitlifepro.fragments.MeasurementFragment;
+import com.cembora.fitlifepro.fragments.NutritionFragment;
+import com.cembora.fitlifepro.fragments.ProgressFragment;
+import com.cembora.fitlifepro.fragments.PurchasesFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
