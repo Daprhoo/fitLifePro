@@ -87,6 +87,8 @@ public class FitnessFragment extends Fragment {
                                 String selectedGoal = dataSnapshot.child("selectedGoal").getValue(String.class);
                                 String day = dataSnapshot.child("day").getValue(String.class);
                                 String exercises = dataSnapshot.child("exercises").getValue(String.class);
+                                getPlan(selectedGoal);
+
 
                                 if (selectedGoal != null && day != null && exercises != null) {
                                     displayDayProgram(day, Arrays.asList(exercises.split(", ")));
@@ -102,27 +104,89 @@ public class FitnessFragment extends Fragment {
         }
     }
 
+    private void getPlan(String selectedGoal) {
+        if (selectedGoal.equals("Kilo Almak İstiyorum")) {
+            mDatabase.child("1wpHR3bCm6onNvv5NIfuAzq0wlfyhE_4QY13KWq0NA-A").child("Sayfa1").child("plan1")
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String day = dataSnapshot.child("day").getValue(String.class);
+                            String exercises = dataSnapshot.child("exercises").getValue(String.class);
+                            displayDayProgram(day, Arrays.asList(exercises.split(", ")));
+                            TextView textDay = getView().findViewById(R.id.textDay);
+                            textDay.setText(day);
+                        }
 
-
-
-    private void displayDayProgram(String day, List<String> exercises) {
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        View dayProgramView = inflater.inflate(R.layout.item_fitness_day_program, null);
-
-        TextView textDay = dayProgramView.findViewById(R.id.textDay);
-        textDay.setText(day);
-
-        LinearLayout layoutExercises = dayProgramView.findViewById(R.id.layoutExercises);
-
-        for (String exercise : exercises) {
-            CheckBox checkBox = new CheckBox(getContext());
-            checkBox.setText(exercise);
-            layoutExercises.addView(checkBox);
-            checkBoxList.add(checkBox);
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            // Handle error
+                        }
+                    });
         }
+        if (selectedGoal.equals("Kilo Vermek İstiyorum")) {
+            mDatabase.child("1wpHR3bCm6onNvv5NIfuAzq0wlfyhE_4QY13KWq0NA-A").child("Sayfa1").child("plan2")
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String day = dataSnapshot.child("day").getValue(String.class);
+                            String exercises = dataSnapshot.child("exercises").getValue(String.class);
+                            displayDayProgram(day, Arrays.asList(exercises.split(", ")));
+                            TextView textDay = getView().findViewById(R.id.textDay);
+                            textDay.setText(day);
+                        }
 
-        layoutFitnessProgram.addView(dayProgramView);
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            // Handle error
+                        }
+                    });
+
+        }
+        if (selectedGoal.equals("Vücut Geliştirmek İstiyorum")) {
+            mDatabase.child("1wpHR3bCm6onNvv5NIfuAzq0wlfyhE_4QY13KWq0NA-A").child("Sayfa1").child("plan3")
+                    .addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            String day = dataSnapshot.child("day").getValue(String.class);
+                            String exercises = dataSnapshot.child("exercises").getValue(String.class);
+                            displayDayProgram(day, Arrays.asList(exercises.split(", ")));
+                            TextView textDay = getView().findViewById(R.id.textDay);
+                            textDay.setText(day);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            // Handle error
+                        }
+                    });
+        }
     }
+
+
+
+
+    private void displayDayProgram(String days, List<String> exercises) {
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+
+        for (String day : days.split(", ")) {
+            View dayProgramView = inflater.inflate(R.layout.item_fitness_day_program, null);
+
+            TextView textDay = dayProgramView.findViewById(R.id.textDay);
+            textDay.setText(day);
+
+            LinearLayout layoutExercises = dayProgramView.findViewById(R.id.layoutExercises);
+
+            for (String exercise : exercises) {
+                CheckBox checkBox = new CheckBox(getContext());
+                checkBox.setText(exercise);
+                layoutExercises.addView(checkBox);
+                checkBoxList.add(checkBox);
+            }
+
+            layoutFitnessProgram.addView(dayProgramView);
+        }
+    }
+
 
 
 

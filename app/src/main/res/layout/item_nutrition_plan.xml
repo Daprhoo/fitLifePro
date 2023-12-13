@@ -1,0 +1,24 @@
+<!-- res/layout/item_nutrition_plan.xml -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:layout_marginTop="16dp">
+
+    <TextView
+        android:id="@+id/textMealType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Meal Type"
+        android:textStyle="bold"
+        android:textSize="18sp" />
+
+    <TextView
+        android:id="@+id/textMealContent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Meal Content"
+        android:textSize="16sp" />
+
+</LinearLayout>

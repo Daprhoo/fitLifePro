@@ -20,6 +20,7 @@
             android:orientation="vertical" />
     </ScrollView>
 
+
     <!-- Progress kaydetme butonu -->
     <Button
         android:id="@+id/buttonSaveProgress"
@@ -27,4 +28,5 @@
         android:layout_height="wrap_content"
         android:text="Progress Kaydet"
         android:layout_marginTop="@dimen/_8sdp"/>
+
 </LinearLayout>

@@ -1,0 +1,29 @@
+<!-- res/layout/item_measurement.xml -->
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="8dp">
+
+    <TextView
+        android:id="@+id/textMeasurementDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Ölçüm Tarihi"
+        android:textStyle="bold" />
+
+    <TextView
+        android:id="@+id/textHeightWeight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text="Boy: 175 cm, Kilo: 70 kg" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="8dp"
+        android:background="#CCCCCC" />
+
+</LinearLayout>
