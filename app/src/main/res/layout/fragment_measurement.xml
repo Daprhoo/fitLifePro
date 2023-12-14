@@ -16,7 +16,8 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
         android:hint="Boy (cm)"
-        android:inputType="numberDecimal" />
+        android:inputType="numberDecimal"
+        android:minHeight="48dp" />
 
     <EditText
         android:id="@+id/editWeight"
@@ -25,7 +26,8 @@
         android:layout_below="@id/editHeight"
         android:layout_marginBottom="16dp"
         android:hint="Kilo (kg)"
-        android:inputType="numberDecimal" />
+        android:inputType="numberDecimal"
+        android:minHeight="48dp" />
 
     <Button
         android:id="@+id/buttonSaveMeasurement"
