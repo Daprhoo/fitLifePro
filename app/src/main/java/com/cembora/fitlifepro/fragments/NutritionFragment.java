@@ -25,7 +25,9 @@ public class NutritionFragment extends Fragment {
 
     private DatabaseReference mDatabase;
     private LinearLayout layoutNutritionPlan;
-
+    private TextView textMealContentTextBreakfast;
+    private TextView textMealContentTextLunch;
+    private TextView textMealContentTextDinner;
     public NutritionFragment() {
         // Gerekli public constructor
     }
@@ -43,6 +45,10 @@ public class NutritionFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_nutrition, container, false);
 
         layoutNutritionPlan = view.findViewById(R.id.layoutNutritionPlan);
+
+        textMealContentTextBreakfast = view.findViewById(R.id.textMealContentBreakfast);
+        textMealContentTextLunch = view.findViewById(R.id.textMealContentLunch);
+        textMealContentTextDinner = view.findViewById(R.id.textMealContentDinner);
 
         // Kullanıcıdan seçilen hedefi al ve beslenme planını yükle
         getSelectedGoal();
@@ -80,14 +86,19 @@ public class NutritionFragment extends Fragment {
     }
 
     private void loadNutritionPlan(String selectedGoal) {
-        DatabaseReference nutritionPlanRef = mDatabase.child("nutritionPlans").child(selectedGoal);
+        DatabaseReference nutritionPlanRef = mDatabase.child("nutritionPlans");
 
         nutritionPlanRef.child("plan1").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    String mealContent = dataSnapshot.getValue(String.class);
-                    displayMealPlan("Akşam Yemeği", mealContent);
+                    String mealContent = dataSnapshot.child("kahvaltı").getValue(String.class);
+                    textMealContentTextBreakfast.setText(mealContent);
+                    String mealContentLunch = dataSnapshot.child("öğle yemeği").getValue(String.class);
+                    textMealContentTextLunch.setText(mealContentLunch);
+                    String mealContentDinner = dataSnapshot.child("akşam yemeği").getValue(String.class);
+                    textMealContentTextDinner.setText(mealContentDinner);
+
                 }
             }
 
@@ -101,8 +112,12 @@ public class NutritionFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    String mealContent = dataSnapshot.getValue(String.class);
-                    displayMealPlan("Kahvaltı", mealContent);
+                    String mealContent = dataSnapshot.child("kahvaltı").getValue(String.class);
+                    textMealContentTextBreakfast.setText(mealContent);
+                    String mealContentLunch = dataSnapshot.child("öğle yemeği").getValue(String.class);
+                    textMealContentTextLunch.setText(mealContentLunch);
+                    String mealContentDinner = dataSnapshot.child("akşam yemeği").getValue(String.class);
+                    textMealContentTextDinner.setText(mealContentDinner);
                 }
             }
 
@@ -116,8 +131,12 @@ public class NutritionFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if (dataSnapshot.exists()) {
-                    String mealContent = dataSnapshot.getValue(String.class);
-                    displayMealPlan("Öğle Yemeği", mealContent);
+                    String mealContent = dataSnapshot.child("kahvaltı").getValue(String.class);
+                    textMealContentTextBreakfast.setText(mealContent);
+                    String mealContentLunch = dataSnapshot.child("öğle yemeği").getValue(String.class);
+                    textMealContentTextLunch.setText(mealContentLunch);
+                    String mealContentDinner = dataSnapshot.child("akşam yemeği").getValue(String.class);
+                    textMealContentTextDinner.setText(mealContentDinner);
                 }
             }
 
@@ -127,7 +146,7 @@ public class NutritionFragment extends Fragment {
             }
         });
     }
-
+/*
     private void displayMealPlan(String mealType, String mealContent) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View mealPlanView = inflater.inflate(R.layout.item_nutrition_plan, null);
@@ -140,6 +159,8 @@ public class NutritionFragment extends Fragment {
 
         layoutNutritionPlan.addView(mealPlanView);
     }
+
+ */
 
     private void showToast(String message) {
         Toast.makeText(getContext(), message, Toast.LENGTH_SHORT).show();

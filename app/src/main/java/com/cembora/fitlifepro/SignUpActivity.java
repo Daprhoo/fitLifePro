@@ -1,4 +1,5 @@
 package com.cembora.fitlifepro;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
@@ -9,6 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class SignUpActivity extends AppCompatActivity {
@@ -53,13 +55,26 @@ public class SignUpActivity extends AppCompatActivity {
 
     private void registerUser(String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener() {
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
-                    public void onComplete(@NonNull Task task) {
+                    public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Başarılı kayıt durumu
+                            mAuth.signInWithEmailAndPassword(email, password)
+                                    .addOnCompleteListener(SignUpActivity.this, new OnCompleteListener<AuthResult>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<AuthResult> task) {
+                                            if (task.isSuccessful()) {
+                                                showToast("signed in successfully");
+                                                Intent intent = new Intent(getApplicationContext(), GoalSelectionActivity.class);
+                                                startActivity(intent);
+                                                finish(); // Close the current activity
+                                            } else {
+                                                showToast("something gone wrong");
+                                            }
+                                        }
+                                    });
                             showToast("Kayıt işlemi başarılı!");
-                            finish(); // Kayıt işlemi tamamlandığında SignUpActivity'yi kapat
                         } else {
                             // Başarısız kayıt durumu
                             showToast("Kayıt işlemi başarısız. Lütfen tekrar deneyin.");
@@ -67,6 +82,7 @@ public class SignUpActivity extends AppCompatActivity {
                     }
                 });
     }
+
 
     private void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();

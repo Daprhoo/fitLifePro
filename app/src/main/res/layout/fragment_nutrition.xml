@@ -19,6 +19,54 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <!-- Meal plans will be added dynamically here -->
+
+            <TextView
+                android:id="@+id/textMealTypeBreakfast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Kahvaltı"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textMealContentBreakfast"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Meal Content"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textMealTypeLunch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Öğle yemeği"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textMealContentLunch"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Meal Content"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textMealTypeDinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Akşa yemeği "
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textMealContentDinner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Meal Content"
+                android:textSize="16sp" />
+
+
+
         </LinearLayout>
 
     </ScrollView>

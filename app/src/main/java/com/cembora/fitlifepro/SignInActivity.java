@@ -12,9 +12,12 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.cembora.fitlifepro.fragments.MenuActivity;
+import com.cembora.fitlifepro.fragments.ProgressFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 public class SignInActivity extends AppCompatActivity {
 
@@ -29,6 +32,13 @@ public class SignInActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sign_in);
 
         mAuth = FirebaseAuth.getInstance();
+
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            // User is already signed in, redirect to GoalSelectionActivity
+            startActivity(new Intent(SignInActivity.this, MenuActivity.class));
+            finish(); // Close this activity
+        }
 
         inputEmailSignIn = findViewById(R.id.inputEmail);
         inputPasswordSignIn = findViewById(R.id.inputPassword);
@@ -56,6 +66,8 @@ public class SignInActivity extends AppCompatActivity {
         });
     }
 
+
+
     private void signInUser(String email, String password) {
         mAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener() {
@@ -64,7 +76,7 @@ public class SignInActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             showToast("Giriş başarılı!");
                             // Giriş başarılıysa GoalSelectionActivity'e yönlendir
-                            Intent intent = new Intent(SignInActivity.this, GoalSelectionActivity.class);
+                            Intent intent = new Intent(SignInActivity.this, MenuActivity.class);
                             startActivity(intent);
                             finish(); // Bu aktiviteyi kapat
                         } else {

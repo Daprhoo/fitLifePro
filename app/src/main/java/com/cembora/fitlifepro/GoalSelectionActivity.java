@@ -42,6 +42,7 @@ public class GoalSelectionActivity extends AppCompatActivity {
         radioGroupGoals = findViewById(R.id.radioGroupGoals);
         buttonSelectGoal = findViewById(R.id.buttonSelectGoal);
 
+
         buttonSelectGoal.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

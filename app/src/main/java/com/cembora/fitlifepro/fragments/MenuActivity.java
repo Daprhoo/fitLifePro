@@ -2,8 +2,10 @@ package com.cembora.fitlifepro.fragments;
 
 // MenuActivity.java
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.cembora.fitlifepro.R;
+import com.cembora.fitlifepro.SignInActivity;
 import com.cembora.fitlifepro.fragments.FitnessFragment;
 import com.cembora.fitlifepro.fragments.MeasurementFragment;
 import com.cembora.fitlifepro.fragments.NutritionFragment;
@@ -26,14 +29,18 @@ public class MenuActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
+    FirebaseAuth mAuth;
+    private ImageView signOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_menu);
+        mAuth = FirebaseAuth.getInstance();
 
         drawerLayout = findViewById(R.id.drawerLayout);
         navigationView = findViewById(R.id.navigationView);
+        signOut = findViewById(R.id.signOut);
         View headerView = navigationView.getHeaderView(0);
         TextView textViewEmail = headerView.findViewById(R.id.textViewEmail);
 
@@ -49,6 +56,20 @@ public class MenuActivity extends AppCompatActivity {
 
         // Menü elemanlarına tıklama dinleyicilerini ekle
         setupNavigationView();
+        setListeners();
+    }
+
+    private void setListeners(){
+        signOut.setOnClickListener(v->onClickedSignOut());
+    }
+
+    private void onClickedSignOut(){
+        mAuth.signOut();
+        Intent intent = new Intent(getApplicationContext(), SignInActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        startActivity(intent);
+
     }
 
     private void setupNavigationView() {

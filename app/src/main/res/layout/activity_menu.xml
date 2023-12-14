@@ -31,8 +31,18 @@
                 android:text="Menu"
                 android:textColor="@android:color/white"
                 android:textSize="@dimen/_16ssp"
-                android:layout_gravity="end"
+                android:layout_gravity="start"
                 android:layout_marginEnd="@dimen/_16sdp"/>
+
+            <ImageView
+                android:id="@+id/signOut"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/_5sdp"
+                android:src="@drawable/sign_out"
+                android:layout_marginEnd="@dimen/_15sdp"
+                android:layout_gravity="end"/>
+
         </androidx.appcompat.widget.Toolbar>
 
         <FrameLayout
