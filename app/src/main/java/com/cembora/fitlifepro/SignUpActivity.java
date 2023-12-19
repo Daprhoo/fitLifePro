@@ -35,22 +35,30 @@ public class SignUpActivity extends AppCompatActivity {
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // Kullanıcının girdiği bilgileri al
                 String email = inputEmailSignUp.getText().toString().trim();
                 String password = inputPasswordSignUp.getText().toString().trim();
                 String confirmPassword = inputConfirmationPasswordSignUp.getText().toString().trim();
 
-                // Gerekli alanları kontrol et
                 if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(confirmPassword)) {
                     showToast("Lütfen tüm alanları doldurun.");
                 } else if (!password.equals(confirmPassword)) {
                     showToast("Şifreler uyuşmuyor.");
                 } else {
-                    // Firebase Authentication kullanarak kayıt işlemini gerçekleştir
-                    registerUser(email, password);
+                    // İşlemi bir iş parçacığında çalıştır
+                    runInBackground(email, password);
                 }
             }
         });
+
+    }
+    private void runInBackground(final String email, final String password) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                // Uzun süren işlemleri burada gerçekleştir
+                registerUser(email, password);
+            }
+        }).start();
     }
 
     private void registerUser(String email, String password) {
