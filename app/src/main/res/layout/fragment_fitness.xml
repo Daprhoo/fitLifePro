@@ -17,7 +17,63 @@
             android:id="@+id/layoutFitnessProgram"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical" />
+            android:orientation="vertical" >
+
+            <TextView
+                android:id="@+id/textFitnessday1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="1. gün"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textFitnessday1Exersices"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Egzersizler"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textFitnessday2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2. gün"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textFitnessday2Exersices"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Egzersizler"
+                android:textSize="16sp" />
+
+            <TextView
+                android:id="@+id/textFitnessday3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="3.gün"
+                android:textStyle="bold"
+                android:textSize="18sp" />
+
+            <TextView
+                android:id="@+id/textFitnessday3Exersices"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Egzersizler"
+                android:textSize="16sp" />
+
+
+
+
+
+
+        </LinearLayout>
+
+
+
+
     </ScrollView>
 
 
@@ -26,7 +82,7 @@
         android:id="@+id/buttonSaveProgress"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Progress Kaydet"
+        android:text=" Kaydet"
         android:layout_marginTop="@dimen/_8sdp"/>
 
 </LinearLayout>
