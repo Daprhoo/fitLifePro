@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.cembora.fitlifepro.databinding.ActivitySignInBinding;
 import com.cembora.fitlifepro.fragments.MenuActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -21,15 +22,19 @@ public class SignInActivity extends AppCompatActivity {
 
     private EditText inputEmailSignIn, inputPasswordSignIn;
     private TextView textCreateNewAccount;
+    private ActivitySignInBinding binding;
 
     FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_in);
+        binding = ActivitySignInBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
+
+
 
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
@@ -52,13 +57,16 @@ public class SignInActivity extends AppCompatActivity {
         findViewById(R.id.buttonSignIn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                loading(true);
                 String email = inputEmailSignIn.getText().toString().trim();
                 String password = inputPasswordSignIn.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password)) {
                     showToast("Lütfen tüm alanları doldurun.");
+                    loading(false);
                 } else {
                     signInUser(email, password);
+
                 }
             }
         });
@@ -75,9 +83,11 @@ public class SignInActivity extends AppCompatActivity {
                             showToast("Giriş başarılı!");
                             // Giriş başarılıysa GoalSelectionActivity'e yönlendir
                             Intent intent = new Intent(SignInActivity.this, MenuActivity.class);
+                            loading(false);
                             startActivity(intent);
                             finish(); // Bu aktiviteyi kapat
                         } else {
+                            loading(false);
                             showToast("Giriş başarısız. Lütfen tekrar deneyin.");
                         }
                     }
@@ -87,4 +97,17 @@ public class SignInActivity extends AppCompatActivity {
     void showToast(String message) {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
+    private void loading(boolean isLoading){
+        if (isLoading){
+            binding.buttonSignIn.setVisibility(View.INVISIBLE);
+            binding.progressBar.setVisibility(View.VISIBLE);
+        }else {
+            binding.buttonSignIn.setVisibility(View.VISIBLE);
+            binding.progressBar.setVisibility(View.INVISIBLE);
+        }
+
+    }
+
+
 }

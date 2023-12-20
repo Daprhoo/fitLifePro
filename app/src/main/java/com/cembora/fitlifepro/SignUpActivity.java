@@ -8,6 +8,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.cembora.fitlifepro.databinding.ActivitySignUpBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
@@ -17,15 +19,19 @@ public class SignUpActivity extends AppCompatActivity {
 
     private EditText inputEmailSignUp, inputPasswordSignUp, inputConfirmationPasswordSignUp;
     private Button buttonSignUp;
+    private ActivitySignUpBinding binding;
 
     private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_sign_up);
+        binding = ActivitySignUpBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
 
         mAuth = FirebaseAuth.getInstance();
+
+
 
         inputEmailSignUp = findViewById(R.id.inputEmailSignUp);
         inputPasswordSignUp = findViewById(R.id.inputPasswordSignUp);
@@ -35,14 +41,17 @@ public class SignUpActivity extends AppCompatActivity {
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                loading(true);
                 String email = inputEmailSignUp.getText().toString().trim();
                 String password = inputPasswordSignUp.getText().toString().trim();
                 String confirmPassword = inputConfirmationPasswordSignUp.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(confirmPassword)) {
                     showToast("Lütfen tüm alanları doldurun.");
+                    loading(false);
                 } else if (!password.equals(confirmPassword)) {
                     showToast("Şifreler uyuşmuyor.");
+                    loading(false);
                 } else {
                     // İşlemi bir iş parçacığında çalıştır
                     runInBackground(email, password);
@@ -75,6 +84,7 @@ public class SignUpActivity extends AppCompatActivity {
                                             if (task.isSuccessful()) {
                                                 showToast("signed in successfully");
                                                 Intent intent = new Intent(getApplicationContext(), GoalSelectionActivity.class);
+                                                loading(false);
                                                 startActivity(intent);
                                                 finish(); // Close the current activity
                                             } else {
@@ -85,10 +95,20 @@ public class SignUpActivity extends AppCompatActivity {
                             showToast("Kayıt işlemi başarılı!");
                         } else {
                             // Başarısız kayıt durumu
+                            loading(false);
                             showToast("Kayıt işlemi başarısız. Lütfen tekrar deneyin.");
                         }
                     }
                 });
+    }
+    private void loading(boolean isLoading){
+        if (isLoading){
+            binding.buttonSignUp.setVisibility(View.INVISIBLE);
+            binding.progressBar.setVisibility(View.VISIBLE);
+        }else{
+            binding.buttonSignUp.setVisibility(View.VISIBLE);
+            binding.progressBar.setVisibility(View.INVISIBLE);
+        }
     }
 
 
