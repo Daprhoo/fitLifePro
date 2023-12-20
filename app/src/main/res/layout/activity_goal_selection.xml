@@ -41,34 +41,14 @@
             android:text="Vücut Geliştirmek İstiyorum" />
     </RadioGroup>
 
-    <EditText
-        android:id="@+id/editTextWeight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/radioGroupGoals"
-        android:layout_marginTop="@dimen/_16sdp"
-        android:layout_marginBottom="@dimen/_8sdp"
-        android:hint="Ağırlığınız (kg)"
-        android:inputType="numberDecimal"
-        android:minHeight="48dp" />
 
-    <EditText
-        android:id="@+id/editTextHeight"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/editTextWeight"
-        android:layout_marginTop="@dimen/_8sdp"
-        android:layout_marginBottom="@dimen/_16sdp"
-        android:hint="Boyunuz (cm)"
-        android:inputType="numberDecimal"
-        android:minHeight="48dp" />
 
     <Button
         android:id="@+id/buttonSelectGoal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/editTextHeight"
         android:layout_marginTop="@dimen/_16sdp"
+        android:layout_below="@id/radioGroupGoals"
         android:text="Devam Et" />
 
 

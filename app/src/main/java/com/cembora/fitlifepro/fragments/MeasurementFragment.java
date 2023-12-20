@@ -11,7 +11,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.cembora.fitlifepro.R;
@@ -70,8 +69,6 @@ public class MeasurementFragment extends Fragment {
         return view;
     }
 
-    //...
-
     private void saveMeasurement() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
@@ -93,7 +90,10 @@ public class MeasurementFragment extends Fragment {
                 measurementRef.child("height").setValue(heightValue);
                 measurementRef.child("weight").setValue(weightValue);
                 measurementRef.child("bmi").setValue(bmi);
-                measurementRef.child("timestamp").setValue(timestamp); // Tarih bilgisini ekleyelim
+
+                // Gerçek ölçüm tarihini ekleyelim
+                String realTimestamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.getDefault()).format(new Date());
+                measurementRef.child("timestamp").setValue(realTimestamp);
 
                 showToast("Ölçümler kaydedildi.");
 
@@ -104,6 +104,8 @@ public class MeasurementFragment extends Fragment {
             }
         }
     }
+
+
 
     private void loadMeasurementHistory() {
         FirebaseUser currentUser = mAuth.getCurrentUser();
@@ -122,7 +124,7 @@ public class MeasurementFragment extends Fragment {
                                 String bmi = measurementSnapshot.child("bmi").getValue(Double.class).toString();
                                 String timestamp = measurementSnapshot.child("timestamp").getValue(String.class); // Tarih bilgisini alalım
 
-                                displayMeasurement(height, weight, bmi, timestamp);
+                                displayMeasurement(height, weight, bmi);
                             }
                         }
 
@@ -134,15 +136,18 @@ public class MeasurementFragment extends Fragment {
         }
     }
 
-    private void displayMeasurement(String height, String weight, String bmi, String timestamp) {
+    //...
+
+    private void displayMeasurement(String height, String weight, String bmi) {
         LayoutInflater inflater = LayoutInflater.from(getContext());
         View measurementView = inflater.inflate(R.layout.item_measurement, null);
 
         TextView textMeasurementDate = measurementView.findViewById(R.id.textMeasurementDate);
         TextView textHeightWeight = measurementView.findViewById(R.id.textHeightWeight);
 
-        // Ölçüm tarihini kullanalım
-        textMeasurementDate.setText("Ölçüm Tarihi: " + timestamp);
+        // Ölçüm tarihini ekleyelim (bu örnek kod, ölçümün kaydedildiği zamanı kullanır)
+        String measurementDate = new SimpleDateFormat("dd/MM/yyyy HH:mm", Locale.getDefault()).format(new Date());
+        textMeasurementDate.setText("Ölçüm Tarihi: " + measurementDate);
 
         // Boy, kilo ve BMI bilgilerini ekleyelim
         textHeightWeight.setText("Boy: " + height + " cm, Kilo: " + weight + " kg, BMI: " + bmi);
@@ -151,6 +156,8 @@ public class MeasurementFragment extends Fragment {
     }
 
 //...
+
+
 
 
     private double calculateBMI(double height, double weight) {
