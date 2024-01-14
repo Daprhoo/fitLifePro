@@ -1,4 +1,5 @@
 package com.cembora.fitlifepro;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -6,6 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -17,7 +19,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class SignUpActivity extends AppCompatActivity {
 
-    private EditText inputEmailSignUp, inputPasswordSignUp, inputConfirmationPasswordSignUp;
+    private EditText inputUserName,inputEmailSignUp, inputPasswordSignUp, inputConfirmationPasswordSignUp;
     private Button buttonSignUp;
     private ActivitySignUpBinding binding;
 
@@ -32,11 +34,12 @@ public class SignUpActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
 
 
-
+        inputUserName = findViewById(R.id.userName);
         inputEmailSignUp = findViewById(R.id.inputEmailSignUp);
         inputPasswordSignUp = findViewById(R.id.inputPasswordSignUp);
         inputConfirmationPasswordSignUp = findViewById(R.id.inputConfirmationPasswordSignUp);
         buttonSignUp = findViewById(R.id.buttonSignUp);
+
 
         buttonSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -45,6 +48,7 @@ public class SignUpActivity extends AppCompatActivity {
                 String email = inputEmailSignUp.getText().toString().trim();
                 String password = inputPasswordSignUp.getText().toString().trim();
                 String confirmPassword = inputConfirmationPasswordSignUp.getText().toString().trim();
+                String userName  = inputUserName.getText().toString().trim();
 
                 if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(confirmPassword)) {
                     showToast("Lütfen tüm alanları doldurun.");
@@ -54,23 +58,23 @@ public class SignUpActivity extends AppCompatActivity {
                     loading(false);
                 } else {
                     // İşlemi bir iş parçacığında çalıştır
-                    runInBackground(email, password);
+                    runInBackground(email, password, userName);
                 }
             }
         });
 
     }
-    private void runInBackground(final String email, final String password) {
+    private void runInBackground(final String email, final String password, final String userName) {
         new Thread(new Runnable() {
             @Override
             public void run() {
                 // Uzun süren işlemleri burada gerçekleştir
-                registerUser(email, password);
+                registerUser(email, password,userName);
             }
         }).start();
     }
 
-    private void registerUser(String email, String password) {
+    private void registerUser(String email, String password, String userName) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -84,6 +88,7 @@ public class SignUpActivity extends AppCompatActivity {
                                             if (task.isSuccessful()) {
                                                 showToast("signed in successfully");
                                                 Intent intent = new Intent(getApplicationContext(), GoalSelectionActivity.class);
+                                                intent.putExtra("userName",userName);
                                                 loading(false);
                                                 startActivity(intent);
                                                 finish(); // Close the current activity

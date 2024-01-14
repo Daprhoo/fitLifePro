@@ -30,6 +30,8 @@ public class ProgressFragment extends Fragment {
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
 
+    private TextView nameText;
+
     public ProgressFragment() {
         // Required empty public constructor
     }
@@ -40,13 +42,41 @@ public class ProgressFragment extends Fragment {
 
         mAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
+
+
+
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_progress, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_progress, container, false);
+
+        // Initialize nameText TextView using findViewById
+        nameText = rootView.findViewById(R.id.welcomeText); // Replace yourTextViewId with the actual ID in your layout
+        String userId = mAuth.getCurrentUser().getUid();
+        DatabaseReference userRef = mDatabase.child("users").child(userId).child("userName");
+
+        // Add ValueEventListener to update nameText in real-time
+        userRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String userName = dataSnapshot.getValue(String.class);
+                if (userName != null) {
+                    nameText.setText("Hoşgeldin " + userName);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle error
+                Toast.makeText(getContext(), "Kullanıcı adı alınırken bir hata oluştu.", Toast.LENGTH_SHORT).show();
+            }
+        });
+        return rootView;
+
     }
 
     @Override
@@ -92,45 +122,63 @@ public class ProgressFragment extends Fragment {
     }
 
     private void loadOtherUsersProgress(View view) {
-        mDatabase.child("userProgress")
-                .addListenerForSingleValueEvent(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                        // Diğer kullanıcıların ilerleme tablosunu yükle ve göster
-                        Map<String, Integer> userProgressMap = new HashMap<>();
+        mDatabase.child("userProgress").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                // Diğer kullanıcıların ilerleme tablosunu yükle ve göster
+                Map<String, Integer> userProgressMap = new HashMap<>();
 
-                        for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
-                            int totalDays = (int) userSnapshot.getChildrenCount();
-                            int completedDays = 0;
+                for (DataSnapshot userSnapshot : dataSnapshot.getChildren()) {
+                    String userId = userSnapshot.getKey();
 
-                            for (DataSnapshot progressSnapshot : userSnapshot.getChildren()) {
-                                Boolean isCompleted = progressSnapshot.getValue(Boolean.class);
-                                if (isCompleted != null && isCompleted) {
-                                    completedDays++;
+                    // Retrieve user name from the "users" node
+                    DatabaseReference userNameRef = mDatabase.child("users").child(userId).child("userName");
+                    userNameRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot userNameSnapshot) {
+                            String userName = userNameSnapshot.getValue(String.class);
+
+                            if (userName != null) {
+                                int totalDays = (int) userSnapshot.getChildrenCount();
+                                int completedDays = 0;
+
+                                for (DataSnapshot progressSnapshot : userSnapshot.getChildren()) {
+                                    Boolean isCompleted = progressSnapshot.getValue(Boolean.class);
+                                    if (isCompleted != null && isCompleted) {
+                                        completedDays++;
+                                    }
                                 }
+
+                                int percentage = (totalDays > 0) ? (completedDays * 100) / totalDays : 0;
+                                userProgressMap.put(userName, percentage);
+
+                                // Örnek olarak, "textOtherUsersProgress" TextView'ine başka bir kullanıcıya ait ilerleme bilgilerini ekleyebilirsiniz
+                                TextView textOtherUsersProgress = view.findViewById(R.id.textOtherUsersProgress);
+                                StringBuilder progressText = new StringBuilder("Diğer Kullanıcıların İlerleme Durumu:\n");
+
+                                for (Map.Entry<String, Integer> entry : userProgressMap.entrySet()) {
+                                    progressText.append(entry.getKey()).append(": ").append(entry.getValue()).append("%\n");
+                                }
+
+                                textOtherUsersProgress.setText(progressText.toString());
                             }
-
-                            int percentage = (totalDays > 0) ? (completedDays * 100) / totalDays : 0;
-                            userProgressMap.put(userSnapshot.getKey(), percentage);
                         }
 
-                        // Örnek olarak, "textOtherUsersProgress" TextView'ine başka bir kullanıcıya ait ilerleme bilgilerini ekleyebilirsiniz
-                        TextView textOtherUsersProgress = view.findViewById(R.id.textOtherUsersProgress);
-                        StringBuilder progressText = new StringBuilder("Diğer Kullanıcıların İlerleme Durumu:\n");
-
-                        for (Map.Entry<String, Integer> entry : userProgressMap.entrySet()) {
-                            progressText.append(entry.getKey()).append(": ").append(entry.getValue()).append("%\n");
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+                            // Handle error
+                            Toast.makeText(getContext(), "Kullanıcı adları alınırken bir hata oluştu.", Toast.LENGTH_SHORT).show();
                         }
+                    });
+                }
+            }
 
-                        textOtherUsersProgress.setText(progressText.toString());
-                    }
-
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
-                        // Handle error
-                        Toast.makeText(getContext(), "Diğer kullanıcıların ilerleme bilgileri yüklenirken bir hata oluştu.", Toast.LENGTH_SHORT).show();
-                    }
-                });
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                // Handle error
+                Toast.makeText(getContext(), "Diğer kullanıcıların ilerleme bilgileri yüklenirken bir hata oluştu.", Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void updateProgressView(View view, int percentage) {

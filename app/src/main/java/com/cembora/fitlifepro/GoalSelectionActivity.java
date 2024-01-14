@@ -30,6 +30,7 @@ public class GoalSelectionActivity extends AppCompatActivity {
     // Firebase
     private FirebaseAuth mAuth;
     private DatabaseReference mDatabase;
+    private String userName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,8 @@ public class GoalSelectionActivity extends AppCompatActivity {
 
         radioGroupGoals = findViewById(R.id.radioGroupGoals);
         buttonSelectGoal = findViewById(R.id.buttonSelectGoal);
+        Intent intent = getIntent();
+        userName = intent.getStringExtra("userName");
 
 
         buttonSelectGoal.setOnClickListener(new View.OnClickListener() {
@@ -65,6 +68,7 @@ public class GoalSelectionActivity extends AppCompatActivity {
 
                 Map<String, Object> userMap = new HashMap<>();
                 userMap.put("selectedGoal", selectedGoal);
+                userMap.put("userName", userName);
 
                 mDatabase.child("users").child(userId).updateChildren(userMap)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
